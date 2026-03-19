@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Site Oficial do Superior Tribunal de Justiça Desportiva (STJD)",
+    "category": "institucional",
+    "description": "Desenvolvido com foco em acessibilidade, performance e usabilidade, este projeto moderniza a presença digital do STJD, órgão máximo da Justiça Desportiva no Brasil. O site foi construído com tecnologias modernas para facilitar o acesso às decisões, notícias, processos e regulamentações do tribunal.",
+    "url": "https://www.stjd.org.br/",
+    "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fstjd.jpg&w=1200&q=75",
+    "image_original": "https://blog.clipy.ia.br/static/images/projects/stjd.jpg"
+  },
+  {
+    "title": "Site de Venda para o Evento \"O Novo Mundo\"",
+    "category": "landing-page/vendas",
+    "description": "Desenvolvido utilizando Next.js e Tailwind CSS, este site foi projetado para ser uma página de vendas altamente eficaz e visualmente atraente para o evento \"O Novo Mundo\" – o maior evento da América Latina voltado para pessoas comuns que desejam criar um negócio na internet.",
+    "url": "https://vendatodosantodia.com.br/o-novo-mundo/",
+    "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fnovo-mundo.jpg&w=1200&q=75",
+    "image_original": "https://blog.clipy.ia.br/static/images/projects/novo-mundo.jpg"
+  },
+  {
+    "title": "Site Institucional para \"Cooperação Ambiental\"",
+    "category": "institucional",
+    "description": "Desenvolvido utilizando HTML, CSS, JavaScript, Joomla, PHP e Bootstrap, este site serve como uma plataforma informativa e interativa para a iniciativa \"Cooperação Ambiental\", destacando o papel fundamental do cooperativismo no cuidado das pessoas, das comunidades e do meio ambiente.",
+    "url": "https://cooperacaoambiental.coop.br/pt/",
+    "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fcoop-amb.jpg&w=1200&q=75",
+    "image_original": "https://blog.clipy.ia.br/static/images/projects/coop-amb.jpg"
+  },
+  {
+    "title": "Site \"Cooperativismo Brasileiro 2024\"",
+    "category": "institucional/dados",
+    "description": "Desenvolvido utilizando HTML, CSS, JavaScript, Joomla, PHP e Bootstrap, este site serve como uma plataforma informativa e interativa dedicada a apresentar dados e insights sobre o Cooperativismo Brasileiro em 2024. Através da integração de dados provenientes de arquivos CSV, o site oferece informações atualizadas e detalhadas sobre diversas cooperativas, seus desempenhos, setores de atuação e impacto socioeconômico.",
+    "url": null,
+    "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fcoop-anu.jpg&w=1200&q=75",
+    "image_original": "https://blog.clipy.ia.br/static/images/projects/coop-anu.jpg"
+  },
+  {
+    "title": "Blog \"Resultados VTSD\"",
+    "category": "blog/plataforma",
+    "description": "Desenvolvido utilizando Next.js, TypeScript e Tailwind CSS no front-end, e NestJS com MySQL no back-end, este blog serve como uma plataforma dedicada a compartilhar os resultados e histórias de sucesso dos alunos do VTSD.",
+    "url": "https://resultado.vtsd.com.br/",
+    "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fresultados.jpg&w=1200&q=75",
+    "image_original": "https://blog.clipy.ia.br/static/images/projects/resultados.jpg"
+  },
+  {
+    "title": "Site de Vendas da Mentoria \"Fluxo\"",
+    "category": "landing-page/vendas",
+    "description": "Desenvolvido utilizando Next.js, TypeScript e Tailwind CSS, este site é uma página de vendas altamente eficaz e visualmente impactante para a Mentoria Fluxo. Através de um design moderno e funcionalidades interativas, o site visa converter visitantes em participantes da mentoria, oferecendo informações detalhadas e incentivos atrativos.",
+    "url": "https://vendatodosantodia.com.br/fluxo/",
+    "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fmentoria-flx.webp&w=1200&q=75",
+    "image_original": "https://blog.clipy.ia.br/static/images/projects/mentoria-flx.webp"
+  },
+  {
+    "title": "Sistema de Iscas Digitais Interno VTSD",
+    "category": "sistema/produto",
+    "description": "Desenvolvido utilizando Next.js, Tailwind CSS, Amazon S3, NestJS e MySQL, este sistema de iscas digitais é uma solução robusta e eficiente voltada para uso interno. Ele permite a criação rápida de páginas de captura de leads em menos de 5 minutos, facilitando estratégias de marketing digital e geração de leads para a organização.",
+    "url": "https://iscas.vtsd.com.br/",
+    "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fiscas-sistem.jpg&w=1200&q=75",
+    "image_original": "https://blog.clipy.ia.br/static/images/projects/iscas-sistem.jpg"
+  },
+  {
+    "title": "Landing Page – Clínica da Família DF",
+    "category": "landing-page/saúde",
+    "description": "Esta landing page foi desenvolvida para a Clínica da Família DF com foco em conversão e experiência do usuário. Utilizando tecnologias modernas como Next.js e Tailwind CSS, a página promove consultas particulares de forma clara, responsiva e otimizada para campanhas de tráfego pago.",
+    "url": "https://clinicadafamiliadf.com.br/lp/claf/consulta-particular/a",
+    "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fclaf.jpg&w=1200&q=75",
+    "image_original": "https://blog.clipy.ia.br/static/images/projects/claf.jpg"
+  },
+  {
+    "title": "Landing Page – Clínica Átrios",
+    "category": "landing-page/saúde",
+    "description": "Landing page criada para a Clínica Átrios com o objetivo de promover consultas particulares. O projeto foi desenvolvido com foco em performance, clareza e responsividade, oferecendo uma experiência eficiente para usuários vindos de campanhas publicitárias.",
+    "url": "https://clinicaatrios.com.br/lp/atrios/consulta-particular/a/",
+    "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fatrios.jpg&w=1200&q=75",
+    "image_original": "https://blog.clipy.ia.br/static/images/projects/atrios.jpg"
+  },
+  {
+    "title": "Landing Page – Clínica Viver",
+    "category": "landing-page/saúde",
+    "description": "Landing page desenvolvida para a Clínica Viver, com foco em atrair pacientes para consultas particulares. O projeto prioriza carregamento rápido, design responsivo e uma estrutura otimizada para conversões em campanhas digitais.",
+    "url": "https://clinicaviver.com/lp/consulta-particular/a/",
+    "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fviver.jpg&w=1200&q=75",
+    "image_original": "https://blog.clipy.ia.br/static/images/projects/viver.jpg"
+  }
+]
+

@@ -1,0 +1,36 @@
+{
+  "name": "Mateus Pires",
+  "role": "Desenvolvedor Full Stack",
+  "company": "Clipy",
+  "avatar": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Favatar.jpeg&w=384&q=75",
+  "avatar_original": "https://blog.clipy.ia.br/static/images/avatar.jpeg",
+  "bio": "Desenvolvedor Full Stack apaixonado por tecnologia, automação e compartilhamento de conhecimento. Tenho experiência no desenvolvimento de aplicações web modernas, escaláveis e focadas na experiência do usuário.",
+  "journey": "Comecei minha trajetória na programação em 2018 e desde então atuei em diversos projetos, desde sites e sistemas corporativos até plataformas completas de e-commerce e soluções digitais personalizadas. Tenho experiência com metodologias ágeis (Scrum e Kanban), foco em boas práticas de código e busco constantemente aprender novas tecnologias e ferramentas.",
+  "started_at": 2018,
+  "skills": {
+    "stack": [
+      "React.js",
+      "Next.js",
+      "Vue.js",
+      "Node.js",
+      "Nest.js",
+      "PHP",
+      "n8n",
+      "IA Agents",
+      "APIs",
+      "Integrações",
+      "Open Source",
+      "Python",
+      "LangChain",
+      "LangGraph",
+      "Redis",
+      "PostgreSQL"
+    ]
+  },
+  "social": {
+    "github": "https://github.com/mateusdeve",
+    "linkedin": "https://www.linkedin.com/in/mateussilveirapires/"
+  },
+  "blog": "https://blog.clipy.ia.br"
+}
+
