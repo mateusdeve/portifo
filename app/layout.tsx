@@ -2,8 +2,33 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "NeonEditor - Portfolio AI Dashboard",
-  description: "Portfolio AI Dashboard",
+  title: "Portfólio Mateus Pires",
+  description:
+    "Portfólio de Mateus Pires, desenvolvedor focado em criar interfaces modernas, performáticas e experiências digitais de alta qualidade.",
+  keywords: [
+    "Mateus Pires",
+    "portfólio",
+    "desenvolvedor front-end",
+    "React",
+    "Next.js",
+    "TypeScript",
+    "web design",
+  ],
+  authors: [{ name: "Mateus Pires" }],
+  creator: "Mateus Pires",
+  openGraph: {
+    title: "Portfólio Mateus Pires",
+    description:
+      "Conheça projetos, habilidades e experiências de Mateus Pires em desenvolvimento web.",
+    type: "website",
+    locale: "pt_BR",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Portfólio Mateus Pires",
+    description:
+      "Projetos, habilidades e experiências em desenvolvimento web por Mateus Pires.",
+  },
 };
 
 export default function RootLayout({
