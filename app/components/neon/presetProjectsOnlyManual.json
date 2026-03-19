@@ -1,0 +1,492 @@
+{
+  "nodes": [
+    {
+      "id": "projects-root",
+      "type": "categoryCard",
+      "position": {
+        "x": -943.0847058823533,
+        "y": 274.29411764705884
+      },
+      "data": {
+        "variant": "root",
+        "title": "Projetos",
+        "subtitle": "Por categoria",
+        "count": 10
+      },
+      "width": 260,
+      "height": 95,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -943.0847058823533,
+        "y": 274.29411764705884
+      },
+      "dragging": false
+    },
+    {
+      "id": "cat-blog/plataforma",
+      "type": "categoryCard",
+      "position": {
+        "x": -482,
+        "y": 124
+      },
+      "data": {
+        "variant": "circle",
+        "title": "blog/plataforma",
+        "count": 1
+      },
+      "width": 78,
+      "height": 78,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -482,
+        "y": 124
+      },
+      "dragging": false
+    },
+    {
+      "id": "cat-institucional",
+      "type": "categoryCard",
+      "position": {
+        "x": -489.7651130644392,
+        "y": 616.2189811861001
+      },
+      "data": {
+        "variant": "circle",
+        "title": "institucional",
+        "count": 2
+      },
+      "width": 78,
+      "height": 78,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -489.7651130644392,
+        "y": 616.2189811861001
+      },
+      "dragging": false
+    },
+    {
+      "id": "cat-institucional/dados",
+      "type": "categoryCard",
+      "position": {
+        "x": -488.067784206528,
+        "y": 250.72404027880094
+      },
+      "data": {
+        "variant": "circle",
+        "title": "institucional/dados",
+        "count": 1
+      },
+      "width": 78,
+      "height": 78,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -488.067784206528,
+        "y": 250.72404027880094
+      },
+      "dragging": false
+    },
+    {
+      "id": "cat-landing-page/saúde",
+      "type": "categoryCard",
+      "position": {
+        "x": -483.8789315431644,
+        "y": 491.24569260699013
+      },
+      "data": {
+        "variant": "circle",
+        "title": "landing-page/saúde",
+        "count": 3
+      },
+      "width": 78,
+      "height": 78,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -483.8789315431644,
+        "y": 491.24569260699013
+      },
+      "dragging": false
+    },
+    {
+      "id": "cat-landing-page/vendas",
+      "type": "categoryCard",
+      "position": {
+        "x": -487.166604983954,
+        "y": 360.0000000000001
+      },
+      "data": {
+        "variant": "circle",
+        "title": "landing-page/vendas",
+        "count": 2
+      },
+      "width": 78,
+      "height": 78,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -487.166604983954,
+        "y": 360.0000000000001
+      },
+      "dragging": false
+    },
+    {
+      "id": "cat-sistema/produto",
+      "type": "categoryCard",
+      "position": {
+        "x": -479.166604983954,
+        "y": -4.000000000000028
+      },
+      "data": {
+        "variant": "circle",
+        "title": "sistema/produto",
+        "count": 1
+      },
+      "width": 78,
+      "height": 78,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -479.166604983954,
+        "y": -4.000000000000028
+      },
+      "dragging": false
+    },
+    {
+      "id": "project-blog/plataforma-0",
+      "type": "projectCard",
+      "position": {
+        "x": 114,
+        "y": -319.2000000000003
+      },
+      "data": {
+        "header": "blog/plataforma",
+        "title": "Blog \"Resultados VTSD\"",
+        "description": "Desenvolvido utilizando Next.js, TypeScript e Tailwind CSS no front-end, e NestJS com MySQL no back-end, este blog serve como uma plataforma dedicada a compartilhar os resultados e histórias de sucesso dos alunos do VTSD.",
+        "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fresultados.jpg&w=1200&q=75",
+        "url": "https://resultado.vtsd.com.br/",
+        "expanded": false
+      },
+      "width": 320,
+      "height": 190,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 114,
+        "y": -319.2000000000003
+      },
+      "dragging": false
+    },
+    {
+      "id": "project-institucional-0",
+      "type": "projectCard",
+      "position": {
+        "x": 133.16654029120514,
+        "y": 1107.6979252553472
+      },
+      "data": {
+        "header": "institucional",
+        "title": "Site Oficial do Superior Tribunal de Justiça Desportiva (STJD)",
+        "description": "Desenvolvido com foco em acessibilidade, performance e usabilidade, este projeto moderniza a presença digital do STJD, órgão máximo da Justiça Desportiva no Brasil. O site foi construído com tecnologias modernas para facilitar o acesso às decisões, notícias, processos e regulamentações do tribunal.",
+        "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fstjd.jpg&w=1200&q=75",
+        "url": "https://www.stjd.org.br/",
+        "expanded": false
+      },
+      "width": 320,
+      "height": 210,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 133.16654029120514,
+        "y": 1107.6979252553472
+      },
+      "dragging": false
+    },
+    {
+      "id": "project-institucional-1",
+      "type": "projectCard",
+      "position": {
+        "x": 155.7114317029973,
+        "y": 1360.8845726811992
+      },
+      "data": {
+        "header": "institucional",
+        "title": "Site Institucional para \"Cooperação Ambiental\"",
+        "description": "Desenvolvido utilizando HTML, CSS, JavaScript, Joomla, PHP e Bootstrap, este site serve como uma plataforma informativa e interativa para a iniciativa \"Cooperação Ambiental\", destacando o papel fundamental do cooperativismo no cuidado das pessoas, das comunidades e do meio ambiente.",
+        "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fcoop-amb.jpg&w=1200&q=75",
+        "url": "https://cooperacaoambiental.coop.br/pt/",
+        "expanded": false
+      },
+      "width": 320,
+      "height": 210,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 155.7114317029973,
+        "y": 1360.8845726811992
+      },
+      "dragging": false
+    },
+    {
+      "id": "project-institucional/dados-0",
+      "type": "projectCard",
+      "position": {
+        "x": 119.49093360802965,
+        "y": -108.63665003227972
+      },
+      "data": {
+        "header": "institucional/dados",
+        "title": "Site \"Cooperativismo Brasileiro 2024\"",
+        "description": "Desenvolvido utilizando HTML, CSS, JavaScript, Joomla, PHP e Bootstrap, este site serve como uma plataforma informativa e interativa dedicada a apresentar dados e insights sobre o Cooperativismo Brasileiro em 2024. Através da integração de dados provenientes de arquivos CSV, o site oferece informações atualizadas e detalhadas sobre diversas cooperativas, seus desempenhos, setores de atuação e impacto socioeconômico.",
+        "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fcoop-anu.jpg&w=1200&q=75",
+        "url": null,
+        "expanded": false
+      },
+      "width": 320,
+      "height": 173,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 119.49093360802965,
+        "y": -108.63665003227972
+      },
+      "dragging": false
+    },
+    {
+      "id": "project-landing-page/saúde-0",
+      "type": "projectCard",
+      "position": {
+        "x": 110,
+        "y": 692
+      },
+      "data": {
+        "header": "landing-page/saúde",
+        "title": "Landing Page – Clínica da Família DF",
+        "description": "Esta landing page foi desenvolvida para a Clínica da Família DF com foco em conversão e experiência do usuário. Utilizando tecnologias modernas como Next.js e Tailwind CSS, a página promove consultas particulares de forma clara, responsiva e otimizada para campanhas de tráfego pago.",
+        "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fclaf.jpg&w=1200&q=75",
+        "url": "https://clinicadafamiliadf.com.br/lp/claf/consulta-particular/a",
+        "expanded": false
+      },
+      "width": 320,
+      "height": 190,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 110,
+        "y": 692
+      },
+      "dragging": false
+    },
+    {
+      "id": "project-landing-page/saúde-1",
+      "type": "projectCard",
+      "position": {
+        "x": 124,
+        "y": 893.9999999999999
+      },
+      "data": {
+        "header": "landing-page/saúde",
+        "title": "Landing Page – Clínica Átrios",
+        "description": "Landing page criada para a Clínica Átrios com o objetivo de promover consultas particulares. O projeto foi desenvolvido com foco em performance, clareza e responsividade, oferecendo uma experiência eficiente para usuários vindos de campanhas publicitárias.",
+        "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fatrios.jpg&w=1200&q=75",
+        "url": "https://clinicaatrios.com.br/lp/atrios/consulta-particular/a/",
+        "expanded": false
+      },
+      "width": 320,
+      "height": 190,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 124,
+        "y": 893.9999999999999
+      },
+      "dragging": false
+    },
+    {
+      "id": "project-landing-page/saúde-2",
+      "type": "projectCard",
+      "position": {
+        "x": 110,
+        "y": 494
+      },
+      "data": {
+        "header": "landing-page/saúde",
+        "title": "Landing Page – Clínica Viver",
+        "description": "Landing page desenvolvida para a Clínica Viver, com foco em atrair pacientes para consultas particulares. O projeto prioriza carregamento rápido, design responsivo e uma estrutura otimizada para conversões em campanhas digitais.",
+        "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fviver.jpg&w=1200&q=75",
+        "url": "https://clinicaviver.com/lp/consulta-particular/a/",
+        "expanded": false
+      },
+      "width": 320,
+      "height": 190,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 110,
+        "y": 494
+      },
+      "dragging": false
+    },
+    {
+      "id": "project-landing-page/vendas-0",
+      "type": "projectCard",
+      "position": {
+        "x": 104.68035790633337,
+        "y": 287.27636229053
+      },
+      "data": {
+        "header": "landing-page/vendas",
+        "title": "Site de Venda para o Evento \"O Novo Mundo\"",
+        "description": "Desenvolvido utilizando Next.js e Tailwind CSS, este site foi projetado para ser uma página de vendas altamente eficaz e visualmente atraente para o evento \"O Novo Mundo\" – o maior evento da América Latina voltado para pessoas comuns que desejam criar um negócio na internet.",
+        "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fnovo-mundo.jpg&w=1200&q=75",
+        "url": "https://vendatodosantodia.com.br/o-novo-mundo/",
+        "expanded": false
+      },
+      "width": 320,
+      "height": 210,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 104.68035790633337,
+        "y": 287.27636229053
+      },
+      "dragging": false
+    },
+    {
+      "id": "project-landing-page/vendas-1",
+      "type": "projectCard",
+      "position": {
+        "x": 119.81557679412344,
+        "y": 83.91927144487573
+      },
+      "data": {
+        "header": "landing-page/vendas",
+        "title": "Site de Vendas da Mentoria \"Fluxo\"",
+        "description": "Desenvolvido utilizando Next.js, TypeScript e Tailwind CSS, este site é uma página de vendas altamente eficaz e visualmente impactante para a Mentoria Fluxo. Através de um design moderno e funcionalidades interativas, o site visa converter visitantes em participantes da mentoria, oferecendo informações detalhadas e incentivos atrativos.",
+        "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fmentoria-flx.webp&w=1200&q=75",
+        "url": "https://vendatodosantodia.com.br/fluxo/",
+        "expanded": false
+      },
+      "width": 320,
+      "height": 190,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 119.81557679412344,
+        "y": 83.91927144487573
+      },
+      "dragging": false
+    },
+    {
+      "id": "project-sistema/produto-0",
+      "type": "projectCard",
+      "position": {
+        "x": 109.86901047983008,
+        "y": -539.5560236978481
+      },
+      "data": {
+        "header": "sistema/produto",
+        "title": "Sistema de Iscas Digitais Interno VTSD",
+        "description": "Desenvolvido utilizando Next.js, Tailwind CSS, Amazon S3, NestJS e MySQL, este sistema de iscas digitais é uma solução robusta e eficiente voltada para uso interno. Ele permite a criação rápida de páginas de captura de leads em menos de 5 minutos, facilitando estratégias de marketing digital e geração de leads para a organização.",
+        "image": "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fiscas-sistem.jpg&w=1200&q=75",
+        "url": "https://iscas.vtsd.com.br/",
+        "expanded": false
+      },
+      "width": 320,
+      "height": 190,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 109.86901047983008,
+        "y": -539.5560236978481
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-projects-root-to-cat-blog/plataforma",
+      "source": "projects-root",
+      "target": "cat-blog/plataforma",
+      "animated": true
+    },
+    {
+      "id": "e-cat-blog/plataforma-to-project-blog/plataforma-0",
+      "source": "cat-blog/plataforma",
+      "target": "project-blog/plataforma-0",
+      "animated": true
+    },
+    {
+      "id": "e-projects-root-to-cat-institucional",
+      "source": "projects-root",
+      "target": "cat-institucional",
+      "animated": true
+    },
+    {
+      "id": "e-cat-institucional-to-project-institucional-0",
+      "source": "cat-institucional",
+      "target": "project-institucional-0",
+      "animated": true
+    },
+    {
+      "id": "e-cat-institucional-to-project-institucional-1",
+      "source": "cat-institucional",
+      "target": "project-institucional-1",
+      "animated": true
+    },
+    {
+      "id": "e-projects-root-to-cat-institucional/dados",
+      "source": "projects-root",
+      "target": "cat-institucional/dados",
+      "animated": true
+    },
+    {
+      "id": "e-cat-institucional/dados-to-project-institucional/dados-0",
+      "source": "cat-institucional/dados",
+      "target": "project-institucional/dados-0",
+      "animated": true
+    },
+    {
+      "id": "e-projects-root-to-cat-landing-page/saúde",
+      "source": "projects-root",
+      "target": "cat-landing-page/saúde",
+      "animated": true
+    },
+    {
+      "id": "e-cat-landing-page/saúde-to-project-landing-page/saúde-0",
+      "source": "cat-landing-page/saúde",
+      "target": "project-landing-page/saúde-0",
+      "animated": true
+    },
+    {
+      "id": "e-cat-landing-page/saúde-to-project-landing-page/saúde-1",
+      "source": "cat-landing-page/saúde",
+      "target": "project-landing-page/saúde-1",
+      "animated": true
+    },
+    {
+      "id": "e-cat-landing-page/saúde-to-project-landing-page/saúde-2",
+      "source": "cat-landing-page/saúde",
+      "target": "project-landing-page/saúde-2",
+      "animated": true,
+      "selected": false
+    },
+    {
+      "id": "e-projects-root-to-cat-landing-page/vendas",
+      "source": "projects-root",
+      "target": "cat-landing-page/vendas",
+      "animated": true
+    },
+    {
+      "id": "e-cat-landing-page/vendas-to-project-landing-page/vendas-0",
+      "source": "cat-landing-page/vendas",
+      "target": "project-landing-page/vendas-0",
+      "animated": true
+    },
+    {
+      "id": "e-cat-landing-page/vendas-to-project-landing-page/vendas-1",
+      "source": "cat-landing-page/vendas",
+      "target": "project-landing-page/vendas-1",
+      "animated": true
+    },
+    {
+      "id": "e-projects-root-to-cat-sistema/produto",
+      "source": "projects-root",
+      "target": "cat-sistema/produto",
+      "animated": true
+    },
+    {
+      "id": "e-cat-sistema/produto-to-project-sistema/produto-0",
+      "source": "cat-sistema/produto",
+      "target": "project-sistema/produto-0",
+      "animated": true
+    }
+  ]
+}
+

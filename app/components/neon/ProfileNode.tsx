@@ -242,9 +242,9 @@ export function ProfileNode({ data }: NodeProps<ProfileNodeData>) {
       />
 
       <div className="relative z-10">
-        {/* Alinha conexões: incoming no lado direito e outgoing no lado esquerdo. */}
-        <Handle type="target" position={Position.Right} />
-        <Handle type="source" position={Position.Left} />
+        {/* Alinha conexões: incoming no lado esquerdo e outgoing no lado direito. */}
+        <Handle type="target" position={Position.Left} />
+        <Handle type="source" position={Position.Right} />
 
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">

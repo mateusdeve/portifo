@@ -9,6 +9,7 @@ import ReactFlow, {
   type Connection,
   type Edge,
   type Node,
+  type ReactFlowInstance,
   useEdgesState,
   useNodesState,
 } from "reactflow";
@@ -17,7 +18,7 @@ import "reactflow/dist/style.css";
 
 import {
   presetTeamOnly,
-  presetProjectsOnly,
+  presetProjectsOnlyManual,
   presetTimesOnly,
   presetGitHubReposOnly,
   GITHUB_REPO_NODE_TYPE,
@@ -59,6 +60,8 @@ const nodeTypes = {
 };
 
 export function NeonReactFlowCanvas() {
+  // Bloqueia qualquer interação que altere o grafo (nodes/edges).
+  const graphLocked = false;
   const initial = useMemo(() => presetTeamOnly, []);
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initial.nodes);
@@ -68,6 +71,16 @@ export function NeonReactFlowCanvas() {
   const [dirty, setDirty] = useState(false);
   const lastSavedSnapshotRef = useRef<string | null>(null);
   const lastPresetRef = useRef<string>("projectsOnly");
+  const rfInstanceRef = useRef<ReactFlowInstance | null>(null);
+  const [viewportSyncNonce, setViewportSyncNonce] = useState(0);
+  const [projectsZoomLockEnabled, setProjectsZoomLockEnabled] = useState(false);
+  const [projectsLockedZoom, setProjectsLockedZoom] = useState<number | null>(null);
+  const [projectsModalNode, setProjectsModalNode] = useState<Node | null>(null);
+
+  const onReactFlowInit = useCallback((instance: ReactFlowInstance) => {
+    rfInstanceRef.current = instance;
+    instance.fitView({ padding: 0.2, duration: 0 });
+  }, []);
 
   const updateProfileSummarizersForPreset = useCallback(
     (preset: string) => {
@@ -90,8 +103,21 @@ export function NeonReactFlowCanvas() {
 
   const applyProjectsOnlyPreset = useCallback(() => {
     lastPresetRef.current = "projectsOnly";
-    setNodes(presetProjectsOnly.nodes);
-    setEdges(presetProjectsOnly.edges);
+    setProjectsZoomLockEnabled(false);
+    setProjectsLockedZoom(null);
+    setProjectsModalNode(null);
+
+    const next = presetProjectsOnlyManual;
+    setNodes(next.nodes);
+    setEdges(next.edges);
+
+    // Garante que ao recarregar a página o "Projetos" volte do mesmo jeito.
+    window.localStorage.setItem(
+      NEONFLOW_LOCAL_STORAGE_KEY,
+      JSON.stringify({ nodes: next.nodes, edges: next.edges }),
+    );
+
+    setViewportSyncNonce((n) => n + 1);
     window.setTimeout(
       () => updateProfileSummarizersForPreset("projectsOnly"),
       0,
@@ -100,6 +126,9 @@ export function NeonReactFlowCanvas() {
 
   const applyGitHubReposOnlyPreset = useCallback(() => {
     lastPresetRef.current = "githubReposOnly";
+    setProjectsZoomLockEnabled(false);
+    setProjectsLockedZoom(null);
+    setProjectsModalNode(null);
     const username = "mateusdeve";
     const cacheKey = "neonflow:githubReposCache:v1";
     const cacheTtlMs = 1000 * 60 * 30; // 30 minutos
@@ -164,6 +193,7 @@ export function NeonReactFlowCanvas() {
         });
         setNodes(presetGitHubReposOnly.nodes);
         setEdges(presetGitHubReposOnly.edges);
+        setViewportSyncNonce((n) => n + 1);
       }
     };
 
@@ -200,10 +230,10 @@ export function NeonReactFlowCanvas() {
           }
         : null;
 
-      // Layout "bonito" para GitHub:
-      // ROOT central -> Categorias (linguagens) em bolinhas -> Repos em leque
+      // Layout no mesmo estilo do workflow de Projetos:
+      // root (esquerda) -> categorias (coluna central) -> repos (coluna direita)
       const rootId = "github-root";
-      const rootPos = { x: 520, y: 280 };
+      const rootPos = { x: -943.0847058823533, y: 274.29411764705884 };
       const rootNode: Node = {
         id: rootId,
         type: CATEGORY_NODE_TYPE,
@@ -216,10 +246,9 @@ export function NeonReactFlowCanvas() {
         },
       };
 
-      const maxLangs = 8;
-      const maxReposPerLang = 6;
-      const maxTotalRepos = 28;
-      const radius = 260;
+      const maxLangs = 6;
+      const maxReposPerLang = 4;
+      const maxTotalRepos = 24;
 
       const langCounts = new Map<string, number>();
       for (const r of normalized) {
@@ -231,16 +260,18 @@ export function NeonReactFlowCanvas() {
         .slice(0, maxLangs)
         .map(([lang]) => lang);
 
-      const langNodes: Node[] = langs.map((lang, idx) => {
-        const count = Math.max(1, langs.length);
-        const theta = (idx / count) * Math.PI * 2 - Math.PI / 2;
-        const x = rootPos.x + radius * Math.cos(theta);
-        const y = rootPos.y + radius * Math.sin(theta);
+      const categoryColumnX = -486;
+      const categoryStartY = -4;
+      const categorySpacingY = 124;
+      const repoColumnX = 110;
+      const repoSpacingY = 190;
 
+      const langNodes: Node[] = langs.map((lang, idx) => {
+        const y = categoryStartY + idx * categorySpacingY;
         return {
           id: `gh-lang-${lang}`,
           type: CATEGORY_NODE_TYPE,
-          position: { x, y },
+          position: { x: categoryColumnX, y },
           data: {
             variant: "circle",
             title: lang,
@@ -259,11 +290,6 @@ export function NeonReactFlowCanvas() {
       const repoNodes: Node[] = [];
       const repoIdsByLang = new Map<string, string[]>();
 
-      const cols = 2;
-      const lateralSpacing = 320;
-      const outwardStart = 165;
-      const outwardStep = 175;
-
       let totalRepos = 0;
       for (const lang of langs) {
         const langNode = langNodes.find((n) => n.id === `gh-lang-${lang}`);
@@ -273,11 +299,8 @@ export function NeonReactFlowCanvas() {
         const picked = items.slice(0, maxReposPerLang);
 
         const ids: string[] = [];
-
-        const dirX = (langNode.position.x - rootPos.x) / radius || 0;
-        const dirY = (langNode.position.y - rootPos.y) / radius || 0;
-        const perpX = -dirY;
-        const perpY = dirX;
+        const startY =
+          langNode.position.y - ((Math.max(1, picked.length) - 1) * repoSpacingY) / 2;
 
         for (let localIdx = 0; localIdx < picked.length; localIdx++) {
           if (totalRepos >= maxTotalRepos) break;
@@ -285,14 +308,8 @@ export function NeonReactFlowCanvas() {
           const r = picked[localIdx];
           const repoId =
             typeof r.id === "number" ? `github-repo-${r.id}` : `github-repo-${lang}-${localIdx}`;
-
-          const row = Math.floor(localIdx / cols);
-          const col = localIdx % cols;
-          const lateral = (col - (cols - 1) / 2) * lateralSpacing;
-          const outward = outwardStart + row * outwardStep;
-
-          const x = langNode.position.x + dirX * outward + perpX * lateral;
-          const y = langNode.position.y + dirY * outward + perpY * lateral;
+          const x = repoColumnX;
+          const y = startY + localIdx * repoSpacingY;
 
           repoNodes.push({
             id: repoId,
@@ -315,7 +332,7 @@ export function NeonReactFlowCanvas() {
         if (totalRepos >= maxTotalRepos) break;
       }
 
-      // Conexões: root->lang, lang->repo, repo->perfil (se existir) + extras leves.
+      // Conexões no mesmo padrão de Projetos: root->categoria e categoria->repo.
       const edges: Edge[] = [];
 
       for (const lang of langs) {
@@ -327,57 +344,13 @@ export function NeonReactFlowCanvas() {
         });
 
         const ids = repoIdsByLang.get(lang) ?? [];
-        ids.forEach((repoId, idx) => {
+        ids.forEach((repoId) => {
           edges.push({
             id: `e-gh-lang-${lang}-to-${repoId}`,
             source: `gh-lang-${lang}`,
             target: repoId,
             animated: true,
           });
-
-          if (profileNode) {
-            edges.push({
-              id: `e-${repoId}-to-${PROFILE_NODE_ID}`,
-              source: repoId,
-              target: PROFILE_NODE_ID,
-              animated: true,
-            });
-          }
-
-          // "neural" leve: cadeia local
-          const next = ids[idx + 1];
-          if (next && idx < 4) {
-            edges.push({
-              id: `e-${repoId}-to-${next}-chain`,
-              source: repoId,
-              target: next,
-              animated: true,
-            });
-          }
-        });
-      }
-
-      // Conexões cruzadas (amostra) para efeito de rede sem poluir demais.
-      const repoNodesByStars = [...repoNodes].sort((a, b) => {
-        const as = (a.data as any)?.stars;
-        const bs = (b.data as any)?.stars;
-        return (bs ?? 0) - (as ?? 0);
-      });
-      const crossCount = Math.min(14, repoNodesByStars.length);
-      for (let i = 0; i < crossCount; i += 3) {
-        const a = repoNodesByStars[i];
-        const b = repoNodesByStars[(i + 5) % repoNodesByStars.length];
-        if (!a || !b || a.id === b.id) continue;
-
-        const aLang = (a.data as any)?.header;
-        const bLang = (b.data as any)?.header;
-        if (aLang && bLang && aLang === bLang) continue;
-
-        edges.push({
-          id: `e-cross-${a.id}-to-${b.id}`,
-          source: a.id,
-          target: b.id,
-          animated: true,
         });
       }
 
@@ -387,6 +360,7 @@ export function NeonReactFlowCanvas() {
 
       setNodes(nextNodes);
       setEdges(edges);
+      setViewportSyncNonce((n) => n + 1);
     };
 
     void load();
@@ -395,6 +369,10 @@ export function NeonReactFlowCanvas() {
   const applyTimesOnlyPreset = useCallback(() => {
     setNodes(presetTimesOnly.nodes);
     setEdges(presetTimesOnly.edges);
+    setProjectsZoomLockEnabled(false);
+    setProjectsLockedZoom(null);
+    setProjectsModalNode(null);
+    setViewportSyncNonce((n) => n + 1);
   }, [setEdges, setNodes]);
 
   const nodesRef = useRef<Node[]>(initial.nodes);
@@ -414,9 +392,24 @@ export function NeonReactFlowCanvas() {
       try {
         const parsed = JSON.parse(raw) as { nodes?: Node[]; edges?: Edge[] };
         if (Array.isArray(parsed.nodes) && Array.isArray(parsed.edges)) {
+          const isProjectsGraph = parsed.nodes.some(
+            (n) =>
+              n.id === "projects-root" ||
+              n.id.startsWith("cat-") ||
+              n.id.startsWith("project-"),
+          );
+
           setNodes(parsed.nodes);
           setEdges(parsed.edges);
           lastSavedSnapshotRef.current = raw;
+
+          // Desbloqueado (usuário deve conseguir dar zoom/pan normalmente).
+          setProjectsZoomLockEnabled(false);
+          setProjectsLockedZoom(null);
+          setProjectsModalNode(null);
+
+          lastPresetRef.current = isProjectsGraph ? "projectsOnly" : lastPresetRef.current;
+
           setDirty(false);
           return;
         }
@@ -435,15 +428,46 @@ export function NeonReactFlowCanvas() {
     setDirty(JSON.stringify({ nodes, edges }) !== lastSavedSnapshotRef.current);
   }, [nodes, edges]);
 
+  useEffect(() => {
+    if (!rfInstanceRef.current) return;
+    rfInstanceRef.current.fitView({ padding: 0.2, duration: 0 });
+  }, [viewportSyncNonce]);
+
+  useEffect(() => {
+    if (!projectsModalNode) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setProjectsModalNode(null);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [projectsModalNode]);
+
   const applyProfileNodeToCurrentGraph = useCallback(() => {
     const currentNodes = nodesRef.current;
     const currentEdges = edgesRef.current;
+    const projectsRootNode = currentNodes.find((n) => n.id === "projects-root");
 
-    const hasProfileNode = currentNodes.some((n) => n.id === PROFILE_NODE_ID);
+    const existingProfileNode = currentNodes.find(
+      (n) => n.id === PROFILE_NODE_ID,
+    );
+
+    const hasProfileNode = Boolean(existingProfileNode);
+
+    const profilePosition = projectsRootNode
+      ? {
+          // "à frente" do card Projetos: perfil à esquerda, alinhado verticalmente.
+          x: projectsRootNode.position.x - 520,
+          y: projectsRootNode.position.y,
+        }
+      : {
+          x: 720,
+          y: 110,
+        };
+
     const profileNode = {
       id: PROFILE_NODE_ID,
       type: "profileCard",
-      position: { x: 720, y: 110 },
+      position: profilePosition,
       data: {
         tab: "skills",
         header: "Perfil",
@@ -452,59 +476,50 @@ export function NeonReactFlowCanvas() {
       },
     };
 
-    // Quando o perfil "entra" no grafo, empurra todos os outros nodes para
-    // mais longe dele (bem mais do que o repulsor de projetos).
-    const nextNodes = (() => {
-      if (hasProfileNode) return currentNodes;
+    const nextNodes = hasProfileNode
+      ? currentNodes.map((n) =>
+          n.id === PROFILE_NODE_ID
+            ? {
+                ...n,
+                position: profilePosition,
+                data: {
+                  ...(n.data as any),
+                  ...(profileNode.data as any),
+                },
+              }
+            : n,
+        )
+      : [...currentNodes, profileNode];
 
-      const profilePos = profileNode.position;
-      const minDist = 680; // mais longe
-      const pushScale = 140;
-      const iterations = 10;
-
-      const movedNodes = currentNodes.map((n) => ({
-        ...n,
-        position: { ...(n.position as any) },
-      }));
-
-      for (let it = 0; it < iterations; it++) {
-        for (let i = 0; i < movedNodes.length; i++) {
-          const node = movedNodes[i];
-          const dx = node.position.x - profilePos.x;
-          const dy = node.position.y - profilePos.y;
-          const dist = Math.hypot(dx, dy) || 0.001;
-
-          if (dist < minDist) {
-            const overlap = (minDist - dist) / minDist; // 0..1
-            const push = overlap * pushScale;
-            const ux = dx / dist;
-            const uy = dy / dist;
-
-            node.position.x += ux * push;
-            node.position.y += uy * push;
-          }
+    // Mantém apenas uma conexão do lado direito do perfil
+    // para o lado esquerdo do card Projetos (projects-root).
+    const nextEdgesBase = currentEdges.filter(
+      (e) => e.source !== PROFILE_NODE_ID && e.target !== PROFILE_NODE_ID,
+    );
+    const profileToProjectsEdge: Edge | null = projectsRootNode
+      ? {
+          id: `e-${PROFILE_NODE_ID}-to-projects-root`,
+          source: PROFILE_NODE_ID,
+          target: "projects-root",
+          animated: true,
         }
-      }
-
-      return [...movedNodes, profileNode];
-    })();
-
-    const profileEdges = currentNodes
-      .filter((n) => n.id !== PROFILE_NODE_ID)
-      .map((n) => ({
-        id: `e-${n.id}-to-${PROFILE_NODE_ID}`,
-        source: n.id,
-        target: PROFILE_NODE_ID,
-        animated: true,
-      }));
-
-    const nextEdges = [
-      ...currentEdges.filter((e) => e.target !== PROFILE_NODE_ID),
-      ...profileEdges,
-    ];
+      : null;
+    const nextEdges = profileToProjectsEdge
+      ? [...nextEdgesBase, profileToProjectsEdge]
+      : nextEdgesBase;
 
     setNodes(nextNodes);
     setEdges(nextEdges);
+
+    // Centraliza a viewport no card de perfil.
+    window.setTimeout(() => {
+      if (!rfInstanceRef.current) return;
+      rfInstanceRef.current.fitView({
+        nodes: [{ id: PROFILE_NODE_ID }],
+        padding: 0.2,
+        duration: 450,
+      });
+    }, 0);
   }, [setEdges, setNodes]);
 
   useEffect(() => {
@@ -557,15 +572,27 @@ export function NeonReactFlowCanvas() {
 
   const handleNodeClick: NodeMouseHandler = useCallback(
     (_, node) => {
+      const isProjectsGraphNode =
+        node.id === "projects-root" ||
+        node.id.startsWith("cat-") ||
+        node.id.startsWith("project-");
+
+      if (isProjectsGraphNode) {
+        setProjectsModalNode(node);
+        return;
+      }
+
       if (!clickEnabled) return;
       if (node.id === TEAM_NODE_ID) {
         applyProjectsOnlyPreset();
         dispatchAgentLog({ group: "team" });
+        return;
       }
 
       if (node.id === SKILLS_NODE_ID) {
         applyTimesOnlyPreset();
         dispatchAgentLog({ group: "times" });
+        return;
       }
 
       if (node.type === "projectCard") {
@@ -672,6 +699,7 @@ export function NeonReactFlowCanvas() {
   );
 
   const saveNow = useCallback(() => {
+    if (graphLocked) return;
     // Usa refs para capturar o estado mais recente do graph.
     const payload = { nodes: nodesRef.current, edges: edgesRef.current };
     const snapshot = JSON.stringify(payload);
@@ -689,6 +717,7 @@ export function NeonReactFlowCanvas() {
 
   const onConnect = useCallback(
     (params: Connection) => {
+      if (graphLocked) return;
       setEdges((eds) =>
         addEdge(
           {
@@ -704,6 +733,7 @@ export function NeonReactFlowCanvas() {
 
   const addTextNodeToGraph = useCallback(
     (payload: NeonReactFlowAddTextNodePayload) => {
+      if (graphLocked) return;
       const text = payload.text.trim();
       if (!text) return;
 
@@ -751,18 +781,162 @@ export function NeonReactFlowCanvas() {
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
+        onNodesChange={(changes) => {
+          if (graphLocked) return;
+          onNodesChange(changes);
+        }}
+        onEdgesChange={(changes) => {
+          if (graphLocked) return;
+          onEdgesChange(changes);
+        }}
         onNodeClick={handleNodeClick}
-        fitView
+        fitView={false}
+        onInit={onReactFlowInit}
         nodesDraggable
         nodesConnectable
         onConnect={onConnect}
         elementsSelectable
+        panOnDrag={projectsZoomLockEnabled ? false : true}
+        panActivationKeyCode={projectsZoomLockEnabled ? null : undefined}
+        zoomActivationKeyCode={projectsZoomLockEnabled ? null : undefined}
+        preventScrolling={projectsZoomLockEnabled}
+        minZoom={projectsZoomLockEnabled && projectsLockedZoom !== null ? projectsLockedZoom : undefined}
+        maxZoom={projectsZoomLockEnabled && projectsLockedZoom !== null ? projectsLockedZoom : undefined}
+        zoomOnScroll={!projectsZoomLockEnabled}
+        zoomOnPinch={!projectsZoomLockEnabled}
+        zoomOnDoubleClick={!projectsZoomLockEnabled}
+        panOnScroll={!projectsZoomLockEnabled}
       >
         <Background gap={24} size={1} />
         {/* <Controls showInteractive={false} /> */}
       </ReactFlow>
+
+      {projectsModalNode ? (
+        (() => {
+          type ProjectCardData = {
+            header?: string;
+            title?: string;
+            description?: string | null;
+            image?: string | null;
+            url?: string | null;
+            expanded?: boolean;
+          };
+
+          type CategoryCardData = {
+            variant?: "root" | "category" | "circle";
+            title?: string;
+            subtitle?: string;
+            count?: number;
+          };
+
+          const node = projectsModalNode;
+
+          const projectData = node.data as ProjectCardData;
+          const categoryData = node.data as CategoryCardData;
+
+          return (
+            <div
+              className="fixed inset-0 z-10000 bg-[#0e0e0e]/60 backdrop-blur-2xl flex items-center justify-center px-6"
+              role="dialog"
+              aria-modal="true"
+              onMouseDown={(e) => {
+                if (e.target === e.currentTarget) setProjectsModalNode(null);
+              }}
+            >
+              <div
+                className="w-full max-w-2xl rounded-3xl glass-card border border-outline-variant/20 shadow-[0_40px_100px_rgba(0,0,0,0.6)] overflow-hidden"
+                onMouseDown={(e) => e.stopPropagation()}
+              >
+                <div className="p-6 border-b border-surface-container-high flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <div className="text-xs font-label uppercase tracking-[0.08em] text-on-surface-variant/70">
+                      {node.type === "projectCard" ? "Projeto" : "Categoria"}
+                    </div>
+                    <div className="mt-1 text-sm font-headline font-semibold text-on-surface truncate">
+                      {node.type === "projectCard" ? projectData.title : categoryData.title}
+                    </div>
+                    <div className="mt-1 text-[12px] text-on-surface-variant/80 wrap-break-word">
+                      {node.id}
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setProjectsModalNode(null)}
+                    className="rounded-full px-3 py-2 border border-outline-variant/20 hover:bg-surface-container-highest transition-colors"
+                    aria-label="Fechar"
+                    title="Fechar"
+                  >
+                    <span className="material-symbols-outlined">close</span>
+                  </button>
+                </div>
+
+                <div className="p-6 space-y-4">
+                  {node.type === "projectCard" ? (
+                    <>
+                      {projectData.header ? (
+                        <div className="shrink-0 px-3 py-1 rounded-full border border-primary/25 bg-primary-container/10 text-primary text-[11px] font-medium w-fit">
+                          {projectData.header}
+                        </div>
+                      ) : null}
+
+                      {projectData.image ? (
+                        <img
+                          src={projectData.image}
+                          alt={projectData.title ?? "Projeto"}
+                          className="w-full max-h-[220px] object-cover rounded-2xl border border-outline-variant/20"
+                        />
+                      ) : null}
+
+                      {projectData.description ? (
+                        <p className="text-[13px] leading-relaxed text-on-surface-variant/90 whitespace-pre-wrap max-h-[260px] overflow-y-auto pr-1 no-scrollbar">
+                          {projectData.description}
+                        </p>
+                      ) : null}
+
+                      <div className="flex items-center gap-3">
+                        {projectData.url ? (
+                          <a
+                            href={projectData.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 bg-primary text-on-primary hover:shadow-[0_0_10px_rgba(107,254,156,0.25)] transition-all active:scale-95"
+                            onMouseDown={(e) => e.stopPropagation()}
+                          >
+                            <span className="material-symbols-outlined">open_in_new</span>
+                            Visitar
+                          </a>
+                        ) : (
+                          <div className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 border border-outline-variant/20 bg-surface-container-highest/10 text-on-surface-variant/60">
+                            Sem link
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {categoryData.subtitle ? (
+                        <div className="text-[13px] leading-relaxed text-on-surface-variant/80 whitespace-pre-wrap">
+                          {categoryData.subtitle}
+                        </div>
+                      ) : null}
+
+                      {typeof categoryData.count === "number" ? (
+                        <div className="inline-flex items-center gap-2 px-3 py-2 rounded-2xl border border-outline-variant/20 bg-surface-container-highest/10 text-on-surface-variant/90">
+                          <span className="material-symbols-outlined text-[18px] text-primary">
+                            apps
+                          </span>
+                          <span>{categoryData.count} itens</span>
+                        </div>
+                      ) : null}
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })()
+      ) : null}
 
       <button
         type="button"

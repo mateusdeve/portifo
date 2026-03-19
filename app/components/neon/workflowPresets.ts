@@ -1,6 +1,7 @@
 import type { Edge, Node } from "reactflow";
 
 import projects from "../../../projects.json";
+import presetProjectsOnlyManualRaw from "./presetProjectsOnlyManual.json";
 
 export const TEAM_NODE_ID = "team";
 export const SKILLS_NODE_ID = "skills";
@@ -37,21 +38,25 @@ const githubProjectsChainList = (() => {
   return source.slice(-GITHUB_REPOS_LIMIT);
 })();
 
-const chainStartProject =
-  projectsList.length > 0 ? projectsList[projectsList.length - 1]! : null;
-
 export const presetTeamOnly: WorkflowPreset = {
   nodes: [
     {
       id: TEAM_NODE_ID,
       type: PROJECT_NODE_TYPE,
-      position: { x: 120, y: 140 },
+      position: { x: 273.081342996492, y: -37.62110027073885 },
       data: {
         header: "Projetos",
-        title: chainStartProject?.title ?? "Projetos",
-        description: chainStartProject?.description ?? null,
-        image: chainStartProject?.image ?? null,
+        title: "Landing Page – Clínica Viver",
+        description:
+          "Landing page desenvolvida para a Clínica Viver, com foco em atrair pacientes para consultas particulares. O projeto prioriza carregamento rápido, design responsivo e uma estrutura otimizada para conversões em campanhas digitais.",
+        image:
+          "https://blog.clipy.ia.br/_next/image?url=%2Fstatic%2Fimages%2Fprojects%2Fviver.jpg&w=1200&q=75",
       },
+      width: 320,
+      height: 173,
+      selected: true,
+      positionAbsolute: { x: 273.081342996492, y: -37.62110027073885 },
+      dragging: false,
     },
   ],
   edges: [],
@@ -221,6 +226,10 @@ export const presetProjectsOnly: WorkflowPreset = {
 
     return edges;
   })(),
+};
+
+export const presetProjectsOnlyManual: WorkflowPreset = {
+  ...(presetProjectsOnlyManualRaw as unknown as WorkflowPreset),
 };
 
 export const presetGitHubReposOnly: WorkflowPreset = {

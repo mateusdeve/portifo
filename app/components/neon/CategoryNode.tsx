@@ -44,7 +44,9 @@ export function CategoryNode({ data }: NodeProps<CategoryNodeData>) {
     <div
       className={[
         "rounded-2xl border shadow-[0_0_0_1px_rgba(107,254,156,0.12),0_0_35px_rgba(107,254,156,0.06)]",
-        variant === "root" ? "bg-primary-container/20 border-primary/25" : "bg-surface-container-low border-outline-variant/20",
+        variant === "root"
+          ? "bg-primary-container/20 border-primary/25"
+          : "bg-surface-container-low border-outline-variant/20",
       ].join(" ")}
       onMouseDown={(e) => e.stopPropagation()}
       style={{ width: 260 }}
