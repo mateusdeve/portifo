@@ -1,5 +1,5 @@
-import { NeonEditorDashboard } from "@/app/components/neon/NeonEditorDashboard";
+import Portfolio from '@/app/components/Portfolio';
 
 export default function Home() {
-  return <NeonEditorDashboard />;
+  return <Portfolio />;
 }
