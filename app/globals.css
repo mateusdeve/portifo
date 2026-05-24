@@ -916,3 +916,7 @@ html, body {
   }
   .nav-links button { padding: 6px 10px; font-size: 11.5px; }
 }
+
+/* ───── Legal pages ───── */
+.legal-back { color: var(--muted); transition: color .2s; }
+.legal-back:hover { color: var(--accent-2); }

@@ -32,9 +32,7 @@ export default function DeleteDataPage() {
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "80px 24px 120px" }}>
 
         {/* Back */}
-        <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "var(--muted)", fontSize: 14, textDecoration: "none", marginBottom: 48, transition: "color .2s" }}
-          onMouseEnter={e => (e.currentTarget.style.color = "var(--accent-2)")}
-          onMouseLeave={e => (e.currentTarget.style.color = "var(--muted)")}>
+        <Link href="/" className="legal-back" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 14, textDecoration: "none", marginBottom: 48 }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="m15 18-6-6 6-6" />
           </svg>
