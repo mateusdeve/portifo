@@ -94,6 +94,18 @@ const PROJECTS = [
     url: null,
     live: false,
   },
+  {
+    n: '07',
+    name: 'RachaMais',
+    title: 'App de divisão de contas em grupo',
+    desc: 'App iOS publicado na App Store para dividir despesas em grupo: grupos por contexto, divisão flexível (igual, por valor ou %), cálculo automático de quem deve quanto com simplificação de dívidas e acerto via PIX. Do produto ao deploy — mobile em React Native/Expo e API em Python (FastAPI) na Cloudflare.',
+    tags: ['React Native', 'Expo', 'Python', 'Cloudflare'],
+    year: '2026',
+    role: 'Full Stack / Mobile',
+    client: 'Projeto próprio',
+    url: 'rachamais.com.br',
+    live: true,
+  },
 ];
 
 const CONTACT = [
@@ -119,8 +131,8 @@ const SCENES: Scene[] = [
   { id: 'hero',     label: 'Hero',     start: 1,  end: 3  },
   { id: 'about',    label: 'Sobre',    start: 4,  end: 7  },
   { id: 'stack',    label: 'Stack',    start: 8,  end: 11 },
-  { id: 'projects', label: 'Projetos', start: 12, end: 18 },
-  { id: 'contact',  label: 'Contato',  start: 19, end: 20 },
+  { id: 'projects', label: 'Projetos', start: 12, end: 19 },
+  { id: 'contact',  label: 'Contato',  start: 20, end: 21 },
 ];
 
 const NAV_SCENES = SCENES.filter(s => s.id !== 'intro');
@@ -312,7 +324,7 @@ function HeroScene({ step, active, jumpTo }: { step: number; active: boolean; ju
             <a href="#projects" className="btn btn-white" onClick={navTo('projects', 12)}>
               Ver projetos →
             </a>
-            <a href="#contact" className="btn btn-ghost" onClick={navTo('contact', 19)}>
+            <a href="#contact" className="btn btn-ghost" onClick={navTo('contact', 20)}>
               Contato
             </a>
           </div>
@@ -459,18 +471,18 @@ function ProjectsScene({ step, active }: { step: number; active: boolean }) {
   const s = step - 12;
 
   return (
-    <div id="projects" className={`scene ${active ? 'active' : (step > 18 ? 'past' : '')}`}>
+    <div id="projects" className={`scene ${active ? 'active' : (step > 19 ? 'past' : '')}`}>
       <div className="scene-inner">
         <div className="container-1320 proj-stage">
           <div className="proj-head">
             <div>
               <span className={rcls(s, 0, 'r eyebrow')}>02 — Trabalhos selecionados</span>
               <h2 className={rcls(s, 0, 'r proj-head-l')}>
-                Seis cases que <em>moveram</em> números reais.
+                Sete cases que <em>moveram</em> números reais.
               </h2>
             </div>
             <div className={rcls(s, 0, 'r proj-counter')}>
-              {s <= 0 ? '00 / 06' : `${String(Math.min(s, 6)).padStart(2, '0')} / 06`}
+              {s <= 0 ? '00 / 07' : `${String(Math.min(s, 7)).padStart(2, '0')} / 07`}
             </div>
           </div>
 
@@ -481,7 +493,7 @@ function ProjectsScene({ step, active }: { step: number; active: boolean }) {
                 <article className={`proj-card ${cls}`} key={p.n}>
                   <div className="proj-info">
                     <div className="proj-head-row">
-                      <span className="proj-num">{p.n} / 06</span>
+                      <span className="proj-num">{p.n} / 07</span>
                       <span className="proj-year">{p.year}</span>
                       {p.live && p.url && (
                         <a className="proj-url-pill" href={`https://${p.url}`} target="_blank" rel="noreferrer">
@@ -521,7 +533,7 @@ function ProjectsScene({ step, active }: { step: number; active: boolean }) {
 ═══════════════════════════════════════════════════════ */
 
 function ContactScene({ step, active }: { step: number; active: boolean }) {
-  const s = step - 19;
+  const s = step - 20;
   return (
     <div id="contact" className={`scene contact-scene ${active ? 'active' : ''}`}>
       <div className="contact-inner">
