@@ -291,6 +291,16 @@ html, body {
 .hero-video {
   height: 100%; width: auto;
   object-fit: contain;
+  pointer-events: none;
+}
+/* iOS/WebKit: remove o botao de play e os controles nativos do video da hero */
+.hero-video::-webkit-media-controls,
+.hero-video::-webkit-media-controls-panel,
+.hero-video::-webkit-media-controls-overlay-play-button,
+.hero-video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+  opacity: 0;
 }
 .hero-fallback {
   position: absolute; inset: 0;
@@ -909,12 +919,7 @@ html, body {
     margin-top: 32px;
   }
 
-  .nav {
-    background: rgba(10,10,10,.88);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255,255,255,.06);
-  }
-  .nav-links button { padding: 6px 10px; font-size: 11.5px; }
+  .nav { display: none; }
 }
 
 /* ───── Legal pages ───── */

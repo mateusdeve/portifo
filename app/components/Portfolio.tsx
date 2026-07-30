@@ -7,18 +7,20 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 ═══════════════════════════════════════════════════════ */
 
 const SKILLS = [
-  { name: 'React / Next.js',       lvl: .96, years: '7 anos' },
-  { name: 'TypeScript & JS',       lvl: .95, years: '7 anos' },
-  { name: 'Node / Nest / Fastify', lvl: .88, years: '5 anos' },
-  { name: 'n8n · Langchain · IA',  lvl: .82, years: '2 anos' },
-  { name: 'Payload CMS · VTEX',    lvl: .80, years: '4 anos' },
-  { name: 'PostgreSQL · MySQL',    lvl: .78, years: '5 anos' },
+  { name: 'React · Next.js',             lvl: .96, years: '7 anos' },
+  { name: 'TypeScript · JavaScript',     lvl: .95, years: '7 anos' },
+  { name: 'Node · Nest · Fastify',       lvl: .88, years: '5 anos' },
+  { name: 'n8n · Langchain · Langgraph', lvl: .82, years: '2 anos' },
+  { name: 'Payload CMS · VTEX IO',       lvl: .80, years: '4 anos' },
+  { name: 'PostgreSQL · MySQL · Redis',  lvl: .78, years: '5 anos' },
 ];
 
 const TECH_STACK = [
-  'Next.js', 'React', 'Vue', 'Astro', 'Tailwind',
-  'Node', 'Nest', 'Fastify', 'Python', 'PHP',
-  'Payload', 'VTEX IO',
+  'TypeScript', 'JavaScript', 'React.js', 'Next.js', 'Vue.js', 'Astro', 'Tailwind CSS',
+  'Node.js', 'Nest.js', 'Fastify', 'Python', 'PHP',
+  'MySQL', 'PostgreSQL', 'Redis',
+  'n8n', 'Langchain', 'Langgraph',
+  'Payload CMS', 'VTEX IO', 'Docker', 'GraphQL',
 ];
 
 const PROJECTS = [
@@ -67,8 +69,8 @@ const PROJECTS = [
     year: '2024',
     role: 'Full Stack',
     client: 'Cliente direto',
-    url: 'comprarbem.store',
-    live: true,
+    url: null,
+    live: false,
   },
   {
     n: '05',
@@ -268,8 +270,33 @@ function HeroScene({ step, active, jumpTo }: { step: number; active: boolean; ju
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    if (active) v.play().catch(() => {});
-    else v.pause();
+
+    // O React nao serializa `muted` no HTML do SSR — sem isso o iOS trata o
+    // video como com som e bloqueia o autoplay, mostrando o botao de play.
+    v.muted = true;
+    v.defaultMuted = true;
+    v.setAttribute('muted', '');
+
+    if (!active) {
+      v.pause();
+      return;
+    }
+
+    const tryPlay = () => v.play().catch(() => {});
+    tryPlay();
+
+    // Fallback: alguns webviews (Instagram, modo economia de bateria) so
+    // liberam o play depois da primeira interacao do usuario.
+    const events = ['touchstart', 'pointerdown', 'scroll'] as const;
+    const onInteract = () => {
+      tryPlay();
+      events.forEach((ev) => window.removeEventListener(ev, onInteract));
+    };
+    events.forEach((ev) =>
+      window.addEventListener(ev, onInteract, { once: true, passive: true })
+    );
+
+    return () => events.forEach((ev) => window.removeEventListener(ev, onInteract));
   }, [active]);
 
   const isMobile = () => window.matchMedia('(max-width: 800px)').matches;
@@ -278,7 +305,7 @@ function HeroScene({ step, active, jumpTo }: { step: number; active: boolean; ju
     e.preventDefault();
     if (isMobile()) {
       const el = document.getElementById(sceneId);
-      if (el) window.scrollTo({ top: el.offsetTop - 60, behavior: 'smooth' });
+      if (el) window.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
     } else {
       jumpTo(fallbackStep);
     }
@@ -292,6 +319,11 @@ function HeroScene({ step, active, jumpTo }: { step: number; active: boolean; ju
           className="hero-video"
           src="/hero-magnific.mp4"
           autoPlay muted loop playsInline preload="auto"
+          controls={false}
+          disablePictureInPicture
+          disableRemotePlayback
+          tabIndex={-1}
+          aria-hidden="true"
         />
       </div>
       <div className="hero-side-fade hero-side-fade--l" />
